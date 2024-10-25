@@ -108,7 +108,7 @@ function Caption() {
   return (
     <Container
       id={captionId}
-      className={classNames(styles.caption, "cpd-theme-dark")}
+      className={classNames(styles.caption)}
     >
       {caption}
     </Container>
