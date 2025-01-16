@@ -1,5 +1,5 @@
 /*
-Copyright 2023 New Vector Ltd
+Copyright 2024 New Vector Ltd
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,26 +17,39 @@ limitations under the License.
 import React from "react";
 import { Meta, StoryFn } from "@storybook/react";
 
-import { Link as LinkComponent } from "./Link";
+import { BigIcon as BigIconComponent } from "./BigIcon";
+import KeyIcon from "@vector-im/compound-design-tokens/assets/web/icons/key";
 
 export default {
-  title: "Link",
-  component: LinkComponent,
+  title: "Icon/BigIcon",
+  component: BigIconComponent,
   tags: ["autodocs"],
-  argTypes: {},
   args: {
-    size: "medium",
+    children: <KeyIcon />,
   },
-} as Meta<typeof LinkComponent>;
+} as Meta<typeof BigIconComponent>;
 
-const Template: StoryFn<typeof LinkComponent> = (args) => (
-  <LinkComponent {...args}>Text link</LinkComponent>
+const Template: StoryFn<typeof BigIconComponent> = (args) => (
+  <BigIconComponent {...args} />
 );
 
-export const Round = Template.bind({});
-Round.args = {};
+export const Default = Template.bind({});
+export const Medium = Template.bind({});
+Medium.args = {
+  size: "medium",
+};
 
 export const Small = Template.bind({});
 Small.args = {
   size: "small",
+};
+
+export const Destructive = Template.bind({});
+Destructive.args = {
+  destructive: true,
+};
+
+export const Success = Template.bind({});
+Success.args = {
+  success: true,
 };

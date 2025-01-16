@@ -1,5 +1,5 @@
 /*
-Copyright 2023 New Vector Ltd
+Copyright 2024 New Vector Ltd
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,20 +14,4 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-import { describe, it, expect } from "vitest";
-import { render } from "@testing-library/react";
-import React from "react";
-
-import { Link } from "./Link";
-
-describe("Link", () => {
-  it("renders", () => {
-    const { asFragment } = render(<Link />);
-    expect(asFragment()).toMatchSnapshot();
-  });
-
-  it("renders width a small size", () => {
-    const { asFragment } = render(<Link size="small" />);
-    expect(asFragment()).toMatchSnapshot();
-  });
-});
+export { Breadcrumb } from "./Breadcrumb";
