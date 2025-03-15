@@ -1,17 +1,8 @@
 /*
-Copyright 2023-2024 New Vector Ltd
+Copyright 2023, 2024 New Vector Ltd.
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-Element-Commercial
+Please see LICENSE files in the repository root for full details.
 */
 
 import { TooltipContext, useTooltipContext } from "./TooltipContext";
@@ -40,12 +31,11 @@ import {
   TooltipLabel,
   useTooltip,
 } from "./useTooltip";
-import { XOR } from "ts-xor";
 
 // Unfortunately Omit doesn't distribute nicely over sum types, so we have to
 // piece together the useTooltip options type by hand
 type TooltipProps = Omit<CommonUseTooltipProps, "isTriggerInteractive"> &
-  XOR<TooltipLabel, TooltipDescription> & {
+  (TooltipLabel | TooltipDescription) & {
     /**
      * Whether the trigger element is interactive.
      * When trigger is interactive:
@@ -62,6 +52,10 @@ type TooltipProps = Omit<CommonUseTooltipProps, "isTriggerInteractive"> &
      */
     nonInteractiveTriggerTabIndex?: number;
   };
+
+const hasLabel = (
+  props: TooltipLabel | TooltipDescription,
+): props is TooltipLabel => "label" in props && !!props.label;
 
 /**
  * A tooltip component
@@ -84,7 +78,7 @@ export function Tooltip({
       </TooltipAnchor>
       <TooltipContent>
         <span id={context.labelId}>
-          {"label" in props ? props.label : props.description}
+          {hasLabel(props) ? props.label : props.description}
         </span>
         <Caption />
       </TooltipContent>
@@ -184,7 +178,12 @@ const TooltipAnchor: FC<TooltipAnchorProps> = ({
     if (!isValidElement(children)) return;
 
     if (isTriggerInteractive) {
-      const props = context.getReferenceProps({ ref, ...children.props });
+      const props = context.getReferenceProps({
+        // To support React 18, we need to explicitly pass the children's props. See  https://github.com/element-hq/compound/issues/333
+        // In React 19, this is not necessary. `getReferenceProps` is able to get the props directly from the ref.
+        ...(typeof children.props === "object" ? children.props : {}),
+        ref,
+      });
       return cloneElement(children, props);
     } else {
       // For a non-interactive trigger, we want most of the props to go on the
@@ -202,7 +201,7 @@ const TooltipAnchor: FC<TooltipAnchorProps> = ({
       } = props;
       return (
         <span tabIndex={nonInteractiveTriggerTabIndex} {...spanProps}>
-          {cloneElement(children as ReactElement, {
+          {cloneElement(children as ReactElement<Record<string, unknown>>, {
             "aria-labelledby": labelId,
             "aria-describedby": descriptionId,
           })}

@@ -1,21 +1,12 @@
 /*
-Copyright 2023 New Vector Ltd
+Copyright 2023 New Vector Ltd.
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-Element-Commercial
+Please see LICENSE files in the repository root for full details.
 */
 
 import React from "react";
-import { Meta, StoryFn } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import UserProfileIcon from "@vector-im/compound-design-tokens/assets/web/icons/user-profile";
 import NotificationsIcon from "@vector-im/compound-design-tokens/assets/web/icons/notifications";
 import ChatProblemIcon from "@vector-im/compound-design-tokens/assets/web/icons/chat-problem";
@@ -26,14 +17,12 @@ import drawerStyles from "./DrawerMenu.module.css";
 import { MenuItem } from "./MenuItem";
 import { Separator } from "../Separator/Separator";
 
-export default {
-  title: "Menu/DrawerMenu",
-  component: DrawerMenuComponent,
-  argTypes: {},
-  args: {},
-} as Meta<typeof DrawerMenuComponent>;
+type Props = Omit<
+  React.ComponentProps<typeof DrawerMenuComponent>,
+  "title" | "children"
+>;
 
-const Template: StoryFn<typeof DrawerMenuComponent> = (args) => (
+const Template: React.FC<Props> = (args) => (
   <>
     <div className={drawerStyles.bg} />
     <DrawerMenuComponent {...args} title="Settings">
@@ -55,5 +44,14 @@ const Template: StoryFn<typeof DrawerMenuComponent> = (args) => (
   </>
 );
 
-export const DrawerMenu = Template.bind({});
-DrawerMenu.args = {};
+const meta = {
+  title: "Menu/DrawerMenu",
+  component: Template,
+  argTypes: {},
+  args: {},
+} satisfies Meta<typeof Template>;
+export default meta;
+
+type Story = StoryObj<typeof meta>;
+
+export const DrawerMenu: Story = { args: {} };

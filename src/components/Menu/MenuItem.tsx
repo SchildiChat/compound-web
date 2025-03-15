@@ -1,17 +1,8 @@
 /*
-Copyright 2023 New Vector Ltd
+Copyright 2023 New Vector Ltd.
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-Element-Commercial
+Please see LICENSE files in the repository root for full details.
 */
 
 import classnames from "classnames";
@@ -20,7 +11,7 @@ import React, {
   ComponentType,
   ElementType,
   isValidElement,
-  ReactNode,
+  ReactElement,
   SVGAttributes,
   useCallback,
   useContext,
@@ -45,9 +36,9 @@ type Props<C extends MenuItemElement> = {
   className?: string;
   /**
    * The icon to show on this menu item.
-   * When `Icon` is a ReactNode, it should spread the props
+   * When `Icon` is a ReactElement, it should spread the props
    */
-  Icon: ComponentType<SVGAttributes<SVGElement>> | ReactNode;
+  Icon: ComponentType<SVGAttributes<SVGElement>> | ReactElement;
   /**
    * The label to show on this menu item.
    */
@@ -89,7 +80,7 @@ export const MenuItem = <C extends MenuItemElement = "button">({
   onClick: onClickProp,
   disabled,
   ...props
-}: Props<C>): JSX.Element => {
+}: Props<C>): React.ReactElement => {
   const Component = as ?? ("button" as ElementType);
   const context = useContext(MenuContext);
 
@@ -111,7 +102,7 @@ export const MenuItem = <C extends MenuItemElement = "button">({
   );
 
   const iconIsReactElement = isValidElement(Icon);
-  const componentIcon = Icon as ReactNode;
+  const componentIcon = Icon as ReactElement;
   const SvgIcon = Icon as ComponentType<SVGAttributes<SVGElement>>;
 
   const content = (

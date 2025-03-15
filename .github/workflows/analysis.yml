@@ -33,7 +33,7 @@ jobs:
       - name: Test
         run: "yarn run test --coverage"
       - name: Upload Artifact
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4
         with:
           name: coverage
           path: |
@@ -46,7 +46,9 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
   e2e:
     name: "Test end-to-end"
-    runs-on: ubuntu-latest
+    # This must be kept in sync with the version of ubuntu used in the Docker
+    # image, in playwright/Dockerfile
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
       - uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4
@@ -60,7 +62,7 @@ jobs:
       - name: Get Playwright version
         run: echo "PLAYWRIGHT_VERSION=$(yarn list --pattern @playwright/test --depth=0 --json --non-interactive --no-progress | jq -r '.data.trees[].name')" >> $GITHUB_ENV
       - name: Cache Playwright binaries
-        uses: actions/cache@6849a6489940f00c2f30c0fb92c6274307ccb58a # v4
+        uses: actions/cache@1bd1e32a3bdc45362d1e726936510720a7c30a57 # v4
         id: playwright-cache
         with:
           path: |
@@ -76,7 +78,7 @@ jobs:
           run: yarn playwright test -j 100%
       - name: Upload Playwright report
         if: always()
-        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4
         with:
           name: html-report--attempt-${{ github.run_attempt }}
           path: playwright-report

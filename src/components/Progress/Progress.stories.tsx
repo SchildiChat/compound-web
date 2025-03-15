@@ -1,20 +1,11 @@
 /*
-Copyright 2024 New Vector Ltd
+Copyright 2024 New Vector Ltd.
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-Element-Commercial
+Please see LICENSE files in the repository root for full details.
 */
 
-import { Meta } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
 import { Progress as ProgressComponent } from "./Progress";
 
@@ -32,7 +23,7 @@ function getValueLabel(value: number) {
   }
 }
 
-export default {
+const meta = {
   title: "Progress",
   component: ProgressComponent,
   tags: ["autodocs"],
@@ -50,9 +41,12 @@ export default {
     max: 100,
     value: 50,
   },
-} as Meta<typeof ProgressComponent>;
+} satisfies Meta<typeof ProgressComponent>;
+export default meta;
 
-export const LargeHalf = {
+type Story = StoryObj<typeof meta>;
+
+export const LargeHalf: Story = {
   args: {
     tint: "green",
     size: "lg",
@@ -60,7 +54,7 @@ export const LargeHalf = {
   },
 };
 
-export const SmallHalf = {
+export const SmallHalf: Story = {
   args: {
     tint: "green",
     size: "sm",
@@ -68,7 +62,7 @@ export const SmallHalf = {
   },
 };
 
-export const LargeFull = {
+export const LargeFull: Story = {
   args: {
     tint: "green",
     size: "lg",
@@ -76,7 +70,7 @@ export const LargeFull = {
   },
 };
 
-export const SmallFull = {
+export const SmallFull: Story = {
   args: {
     tint: "green",
     size: "sm",
@@ -84,7 +78,7 @@ export const SmallFull = {
   },
 };
 
-export const Empty = {
+export const Empty: Story = {
   args: {
     value: 0,
   },

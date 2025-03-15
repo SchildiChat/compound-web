@@ -1,25 +1,16 @@
 /*
-Copyright 2023 New Vector Ltd
+Copyright 2023 New Vector Ltd.
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+SPDX-License-Identifier: AGPL-3.0-only OR LicenseRef-Element-Commercial
+Please see LICENSE files in the repository root for full details.
 */
 
 import React from "react";
-import { Meta, StoryFn } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
 import { Avatar as AvatarComponent } from "./Avatar";
 
-export default {
+const meta = {
   title: "Avatar",
   component: AvatarComponent,
   tags: ["autodocs"],
@@ -31,58 +22,62 @@ export default {
     src: "/images/__test__/kitten.jpg",
     type: "round",
   },
-} as Meta<typeof AvatarComponent>;
+} satisfies Meta<typeof AvatarComponent>;
+export default meta;
 
-const Template: StoryFn<typeof AvatarComponent> = (args) => (
-  <AvatarComponent {...args} />
-);
+type Story = StoryObj<typeof meta>;
 
-export const Round = Template.bind({});
-Round.args = {
-  type: "round",
+export const Round: Story = {
+  args: {
+    type: "round",
+  },
 };
 
-export const Square = Template.bind({});
-Square.args = {
-  type: "square",
+export const Square: Story = {
+  args: {
+    type: "square",
+  },
 };
 
-export const Button = Template.bind({});
-Button.args = {
-  type: "round",
-  onClick: () => console.log("clicked!"),
+export const Button: Story = {
+  args: {
+    type: "round",
+    onClick: () => console.log("clicked!"),
+  },
 };
 
-export const NoImageFallback = Template.bind({});
-NoImageFallback.args = {
-  src: "",
+export const NoImageFallback: Story = {
+  args: {
+    src: "",
+  },
 };
 
-export const LargeNoImageFallback = Template.bind({});
-LargeNoImageFallback.args = {
-  src: "",
-  size: "128px",
+export const LargeNoImageFallback: Story = {
+  args: {
+    src: "",
+    size: "128px",
+  },
 };
 
-const ImageLessCollection: StoryFn<typeof AvatarComponent> = (args) => (
-  <>
-    <AvatarComponent {...args} id="1" />
-    &nbsp;
-    <AvatarComponent {...args} id="2" />
-    &nbsp;
-    <AvatarComponent {...args} id="3" />
-    &nbsp;
-    <AvatarComponent {...args} id="4" />
-    &nbsp;
-    <AvatarComponent {...args} id="5" />
-    &nbsp;
-    <AvatarComponent {...args} id="6" />
-    &nbsp;
-  </>
-);
-
-export const AllAvatars = ImageLessCollection.bind({});
-AllAvatars.args = {
-  src: "",
-  size: "36px",
+export const AllAvatars: Story = {
+  args: {
+    src: "",
+    size: "36px",
+  },
+  render: (args: React.ComponentProps<typeof AvatarComponent>) => (
+    <>
+      <AvatarComponent {...args} id="1" />
+      &nbsp;
+      <AvatarComponent {...args} id="2" />
+      &nbsp;
+      <AvatarComponent {...args} id="3" />
+      &nbsp;
+      <AvatarComponent {...args} id="4" />
+      &nbsp;
+      <AvatarComponent {...args} id="5" />
+      &nbsp;
+      <AvatarComponent {...args} id="6" />
+      &nbsp;
+    </>
+  ),
 };
