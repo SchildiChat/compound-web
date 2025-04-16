@@ -15,6 +15,7 @@ import React, {
   SVGAttributes,
   useCallback,
   useContext,
+  MouseEventHandler,
 } from "react";
 import styles from "./MenuItem.module.css";
 import { Text } from "../Typography/Text";
@@ -56,12 +57,21 @@ type Props<C extends MenuItemElement> = {
   // This prop is required because it's rare to not want a selection handler
   onSelect: ((e: Event) => void) | null;
   /**
+   * Event callback for when the item is clicked.
+   * @param e
+   */
+  onClick?: MouseEventHandler<HTMLElementTagNameMap[C]>;
+  /**
    * The color variant of the menu item.
    * @default primary
    */
   kind?: "primary" | "critical";
   disabled?: boolean;
-} & Omit<ComponentPropsWithoutRef<C>, "onSelect">;
+  /**
+   * Whether to hide the chevron navigation hint.
+   */
+  hideChevron?: boolean;
+} & Omit<ComponentPropsWithoutRef<C>, "onSelect" | "onClick">;
 
 /**
  * An item within a menu, acting either as a navigation button, or simply a
@@ -79,6 +89,7 @@ export const MenuItem = <C extends MenuItemElement = "button">({
   children,
   onClick: onClickProp,
   disabled,
+  hideChevron,
   ...props
 }: Props<C>): React.ReactElement => {
   const Component = as ?? ("button" as ElementType);
@@ -143,7 +154,7 @@ export const MenuItem = <C extends MenuItemElement = "button">({
       )}
       {/* We use CSS to swap between this navigation hint and the provided
       children on hover - see the styles module. */}
-      {(Component === "button" || Component === "a") && (
+      {!hideChevron && (Component === "button" || Component === "a") && (
         <ChevronRightIcon
           width={8}
           height={24}
